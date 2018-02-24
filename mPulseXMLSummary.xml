@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite tests="13" errors=" 4" timestamp="02/21/18" overall="PASS" >
+	<testcase name="Login Required time should not exceed 100.000 sec" classname="Performance" time="2.253" />
+	<testcase name="Search Results Page time should not exceed 2.465 sec" classname="Performance" time="1.969" />
+	<testcase name="Rates Page PageLoad time should not exceed 2.724 sec" classname="Performance" time="3.299" >
+		<failure type="performance"> 
+			PageGroup: Rates Page , Threshold: 2.724, Actual PageLoadTime: 3.299 
+			BASELINE: PageLoadTime:  2.477 sec, Measurements: 2259079 Moe: 0.013 sec 
+			TEST: PageLoadTime: 3.299 sec, Measurements:  59 , Moe: 2.563 sec
+		</failure>
+	</testcase>
+	<testcase name="Brand Home Page time should not exceed 4.621 sec" classname="Performance" time="6.899" />
+	<testcase name="webapi-hotel-propcode-rates time should not exceed 1.542 sec" classname="Performance" time="2.475" />
+	<testcase name="Property Page time should not exceed 5.066 sec" classname="Performance" time="3.599" />
+	<testcase name="Guest Data PageLoad time should not exceed 3.032 sec" classname="Performance" time="4.199" >
+		<failure type="performance"> 
+			PageGroup: Guest Data , Threshold: 3.032, Actual PageLoadTime: 4.199 
+			BASELINE: PageLoadTime:  2.757 sec, Measurements: 658898 Moe: 0.024 sec 
+			TEST: PageLoadTime: 4.199 sec, Measurements:  65 , Moe: 3.169 sec
+		</failure>
+	</testcase>
+	<testcase name="(No Page Group) time should not exceed 0.491 sec" classname="Performance" time="0.363" />
+	<testcase name="Reservations time should not exceed 2.312 sec" classname="Performance" time="1.949" />
+	<testcase name="Home Page time should not exceed 6.295 sec" classname="Performance" time="3.864" />
+	<testcase name="Confirmation PageLoad time should not exceed 2.317 sec" classname="Performance" time="2.775" >
+		<failure type="performance"> 
+			PageGroup: Confirmation , Threshold: 2.317, Actual PageLoadTime: 2.775 
+			BASELINE: PageLoadTime:  2.107 sec, Measurements: 210586 Moe: 0.048 sec 
+			TEST: PageLoadTime: 2.775 sec, Measurements:  18 , Moe: 5.266 sec
+		</failure>
+	</testcase>
+	<testcase name="Choice Privileges PageLoad time should not exceed 2.630 sec" classname="Performance" time="3.525" >
+		<failure type="performance"> 
+			PageGroup: Choice Privileges , Threshold: 2.630, Actual PageLoadTime: 3.525 
+			BASELINE: PageLoadTime:  2.391 sec, Measurements: 798807 Moe: 0.021 sec 
+			TEST: PageLoadTime: 3.525 sec, Measurements:  43 , Moe: 1.535 sec
+		</failure>
+	</testcase>
+	<testcase name="webapi-location-hotels time should not exceed 1.871 sec" classname="Performance" time="0.349" />
+</testsuite>
+
