@@ -5,11 +5,14 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -184,7 +187,12 @@ public class MPulseDataSet {
 	}
 
 	String baseline = null;
-	String timezone = "US%2FEastern";
+	//String timezone = "US%2FEastern"; //2/24/2018 - Moved to dynamic timezone 
+	Calendar calendar = new GregorianCalendar();
+	//String timezone = calendar.getTimeZone().getDisplayName().toString().replace(" ", "+");
+	String timezone =ZoneId.systemDefault().toString();
+	//String timezone = "US%2FEastern";
+	//timezone=timezone.replace(" ","+");
 	String baselineQueryString, testDataQueryString, testDomain, baselineDomain;
 	Calendar baselineStartDate, baselineEndDate, testStartDate, testEndDate;
 	MPulseApplication mps = null;

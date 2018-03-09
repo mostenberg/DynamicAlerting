@@ -37,7 +37,7 @@ public class MPulseJenkins {
 		System.out.println("Ending");
 
 		System.out.println("mPulse/Jenkins Utility : \n"
-				+ "  Version 1.2  Last Modified 2/21/2018 by Mike Ostenberg mostenbe@akamai.com\n"
+				+ "  Version 1.3  Last Modified 2/24/2018 by Mike Ostenberg mostenbe@akamai.com .Updated to automatically detect and use local  timezone mostenbe@akamai.com\n"
 				+ "  This utility will allow you to execute a jar file from the command line, and automatically compare recent mPulse performance to a time window of your choosing, then PASS/FAIL\n"
 				+ "  based on thresholds that you set. Execute by running java -jar DynamicAlerting.jar [args]\n\n"
 				+ "Command line arguments:\n"

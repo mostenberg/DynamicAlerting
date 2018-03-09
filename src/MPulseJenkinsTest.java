@@ -18,7 +18,7 @@ class MPulseJenkinsTest {
 	void testParseArguments() {
 		String [] args= {"baselineStartDate=-2weeks","baselineEndDate=-2days","baselineMultiplier=1.1","testStartDate=-3hours","testEndDate=now","globalThreshold=100",
 				"apiToken=ea57e6bf-8ac5-4f7a-964d-892dd912beca","allowedPercentOfPageGroupsFailing=50.0","minMeasurements=10",
-				"name=Choice Hotels", "apiKey=H45A6-DFUWB-FMVSB-XRBWW-XXPJ8","tenantName=POC - Choice Hotels", "testDomain=replatformqaext.choicehotels.com","baselineDomain=www.choicehotels.com"};
+				"name=Choice Hotels", "apiKey=H45A6-DFUWB-FMVSB-XRBWW-XXPJ8","tenantName=POC - Choice Hotels","queryModification=geography?"};
 		MPulseJenkins.main(args);
 		//fail("Not yet implemented,sir ");
 	}
