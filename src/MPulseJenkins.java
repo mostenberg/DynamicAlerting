@@ -4,7 +4,26 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 /**
- *
+ * This is the Main class for the DynamicAlerting.jar package. It parses the
+ * command line arguments to get the appropriate data ranges The class
+ * MPulseJenkins has the Main method and is the entry point for the program.
+ * MPulseJenkins.Main will call MPulseJenkins.parseArgumentsTosetNameUsernameAPIandPWD function. 
+ * This will provide the account credentials to create an object of type MPulseApplication
+ * (which holds login info). 
+ * MPulseJenkins.Main will then use MPulseApplication to get a request token. 
+ * MPulseJenkins.Main will then create a MPulseDataSet called mpds and embedding the mPulse Application and credentials. 
+ * mpds is basically the object that holds the two data sets (baseline and trial) and compares them. 
+ * MPulseJenkins.Main will then parse the rest of the arguments for timeline etc. 
+ * As each argument is parsed, the appropriate value in mpds is set. 
+ * Then, calling mpds.setBaseline() will have mpds create the query string and initiate the call to mPulse for the baseline data. 
+ * Then, calling mpds.setTestData() will have mpds create the query string and initiate the
+ * call to mPulse for the test data. 
+ * Now that mpds has the data there are 3
+ * functions to output comperisons to CSV, XML and HTML files:
+ *  mpds.getHTMLSummary(); //Gets the HTML summary of the comparison
+ *  mpds.getXMLSummary();  //Gets the XML summary of the comparison
+ *  mpds.writeCSVSummaries(); //Writes the CSV files used by the Plot plugin to plot the data.
+ *  
  * @author mikeostenberg
  */
 public class MPulseJenkins {
@@ -37,7 +56,8 @@ public class MPulseJenkins {
 		System.out.println("Ending");
 
 		System.out.println("mPulse/Jenkins Utility : \n"
-				+ "  Version 1.3  Last Modified 2/24/2018 by Mike Ostenberg mostenbe@akamai.com .Updated to automatically detect and use local  timezone mostenbe@akamai.com\n"
+				+ "  Version 1.3  Last Modified 2/24/2018 by Mike Ostenberg mostenbe@akamai.com .Updated to automatically detect and use local  timezone \n"
+				+ "  Version 1.4  Last Modified 3/16/2018 by Mike Ostenberg mostenbe@akamai.com .Updated to better handle scientific notation in returned results\n"
 				+ "  This utility will allow you to execute a jar file from the command line, and automatically compare recent mPulse performance to a time window of your choosing, then PASS/FAIL\n"
 				+ "  based on thresholds that you set. Execute by running java -jar DynamicAlerting.jar [args]\n\n"
 				+ "Command line arguments:\n"
@@ -102,22 +122,7 @@ public class MPulseJenkins {
 			System.out.println("Must have baseline or manual threshold or global threshold\n");
 			return;
 		}
-		// mpds.queryLineAdder="page-groups?";
-
-		// https://mpulse.soasta.com/concerto/mpulse/api/v2/ZV3QP-3GVC9-W9C3K-HUE5T-N7WHZ/page-groups?date=2015-08-28&format=json
-
-		// Create Query string for test data.
-		// queryString=String.format("page-groups?format=json&custom-dimension-domain=%s",testDomainName);
-		// //Today's values for
-		// testTimes = mps.mPulseQuery(queryString);
-		// System.out.println(String.format("\nREQUESTING TEST DATA:\n\tQUERY
-		// STRING:\n\t%s/%s/%s\n\n\tRESPONSE:\n\t%s\n\n",mps.urlStringForQueries,apiKey,queryString,testTimes));
-		// MPulseDataSet mpds = new MPulseDataSet (queryString);
-
-		// Now do a query which will get the baseline times
-
-		// ?date-comparator=Between&date-start=2013-03-27T00:00:00Z&date-end=2013-03-27T12:00:00Z
-
+	
 		mpds.setBaseline(); // Tells the mPulse DataSet to initiate the query setting to mPulse and create
 							// baseline DataSet(Date ranges were passed in earlier)
 		mpds.setTestData();
@@ -157,7 +162,12 @@ public class MPulseJenkins {
 		mpds.writeCSVSummaries();
 
 	}
-
+/**
+ *  Parses the command line arguments related to time comparison and thresholds.
+ *  Note: The first pass on the command line arguments was done by the metho
+ * @param myArgs
+ * @param mpds
+ */
 	static void parseArguments(String[] myArgs, MPulseDataSet mpds) {
 		// System.out.println ("Number of Arguments: "+myArgs.length);
 
@@ -279,7 +289,10 @@ public class MPulseJenkins {
 			
 		}
 	}
-
+/**
+ * Parses the command line arguments related to authentication and mPulse API access
+ * @param myArgs The list of all arguments. It will pull out the authentication ones and use them to set values
+ */
 	static void parseArgumentsTosetNameUsernameAPIandPWD(String[] myArgs) {
 		// System.out.println ("Number of Arguments: "+myArgs.length);
 

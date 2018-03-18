@@ -427,9 +427,10 @@ public class MPulseDataSet {
 			}
 
 			myPGD.setDynamicThreshold(baselineMultiplier);
-			myPGD.testPageLoadTime = (Integer.parseInt(testPageGroups.getJSONArray(i).get(1).toString()));
-			myPGD.testMoE = (Double.parseDouble(testPageGroups.getJSONArray(i).get(2).toString()));
-			myPGD.testBeaconCount = (Integer.parseInt(testPageGroups.getJSONArray(i).get(3).toString()));
+			myPGD.testPageLoadTime = new BigDecimal(testPageGroups.getJSONArray(i).get(1).toString()).intValue();
+			myPGD.testMoE = (Double.valueOf(testPageGroups.getJSONArray(i).get(2).toString()));
+			myPGD.testBeaconCount = new BigDecimal(testPageGroups.getJSONArray(i).get(3).toString()).intValue();
+			//myPGD.testBeaconCount = (Integer.parseInt(testPageGroups.getJSONArray(i).get(3).toString()));
 			// System.out.println ("My PGD"+myPGD.toString());
 
 		}
@@ -442,9 +443,8 @@ public class MPulseDataSet {
 				System.out.println("PageGroup Name is " + pageGroupName);
 				if (pageGroups.containsKey(pageGroupName)) {
 					PageGroup myPG = pageGroups.get(pageGroupName);
-					myPG.baselinePageLoadTime = (Integer
-							.parseInt(baselinePageGroups.getJSONArray(i).get(1).toString()));
-					myPG.baselineMoE = (Double.parseDouble(baselinePageGroups.getJSONArray(i).get(2).toString()));
+					myPG.baselinePageLoadTime = new BigDecimal(baselinePageGroups.getJSONArray(i).get(1).toString()).intValue();
+					myPG.baselineMoE = (Double.valueOf(baselinePageGroups.getJSONArray(i).get(2).toString()));
 					System.out.println("Value is " + baselinePageGroups.getJSONArray(i).get(3).toString());
 					//myPG.baselineBeaconCount = (Integer.parseInt(baselinePageGroups.getJSONArray(i).get(3).toString()));
 					myPG.baselineBeaconCount = new BigDecimal((baselinePageGroups.getJSONArray(i).get(3).toString())).intValue(); //See if this handles scientific notation
@@ -477,8 +477,7 @@ public class MPulseDataSet {
 	}
 
 	void setTestData() {
-		String startDate = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'Z'").format(this.testStartDate.getTime());// was:
-																													// YYYY-MM-dd'T'HH:mm:ss'Z'"
+		String startDate = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'Z'").format(this.testStartDate.getTime());// was:																													// YYYY-MM-dd'T'HH:mm:ss'Z'"
 		String endDate = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'Z'").format(this.testEndDate.getTime());
 
 		// If the test domain was defined, then use it, otherwise, drop it out of the

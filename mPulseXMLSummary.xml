@@ -1,27 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite tests=" 5" errors=" 3" timestamp="03/04/18" overall="FAIL" >
-	<testcase name="Chrome/64 PageLoad time should not exceed 0.493 sec" classname="Performance" time="1.299" >
+<testsuite tests="32" errors="15" timestamp="03/16/18" overall="FAIL" >
+	<testcase name="Saves sizes time should not exceed 1.684 sec" classname="Performance" time="1.674" />
+	<testcase name="other time should not exceed 0.341 sec" classname="Performance" time="0.291" />
+	<testcase name="My Account Address Book PageLoad time should not exceed 1.335 sec" classname="Performance" time="1.466" >
 		<failure type="performance"> 
-			PageGroup: Chrome/64 , Threshold: 0.493, Actual PageLoadTime: 1.299 
-			BASELINE: PageLoadTime:  0.449 sec, Measurements: 11955193 Moe: 0.003 sec 
-			TEST: PageLoadTime: 1.299 sec, Measurements: 3452 , Moe: 0.137 sec
+			PageGroup: My Account Address Book , Threshold: 1.335, Actual PageLoadTime: 1.466 
+			BASELINE: PageLoadTime:  1.335 sec, Measurements: 1087 Moe: 0.163 sec 
+			TEST: PageLoadTime: 1.466 sec, Measurements: 806 , Moe: 0.338 sec
 		</failure>
 	</testcase>
-	<testcase name="Chrome/62 time should not exceed 0.543 sec" classname="Performance" time="0.239" />
-	<testcase name="IE/11 PageLoad time should not exceed 0.607 sec" classname="Performance" time="1.125" >
+	<testcase name="My Account Communication Preferences time should not exceed 1.517 sec" classname="Performance" time="1.514" />
+	<testcase name="Store Detail time should not exceed 3.829 sec" classname="Performance" time="3.682" />
+	<testcase name="Shopping Cart PageLoad time should not exceed 2.458 sec" classname="Performance" time="2.502" >
 		<failure type="performance"> 
-			PageGroup: IE/11 , Threshold: 0.607, Actual PageLoadTime: 1.125 
-			BASELINE: PageLoadTime:  0.552 sec, Measurements: 3940236 Moe: 0.005 sec 
-			TEST: PageLoadTime: 1.125 sec, Measurements: 285 , Moe: 0.403 sec
+			PageGroup: Shopping Cart , Threshold: 2.458, Actual PageLoadTime: 2.502 
+			BASELINE: PageLoadTime:  2.458 sec, Measurements: 74394 Moe: 0.037 sec 
+			TEST: PageLoadTime: 2.502 sec, Measurements: 57385 , Moe: 0.050 sec
 		</failure>
 	</testcase>
-	<testcase name="Mobile Safari/11 PageLoad time should not exceed 0.581 sec" classname="Performance" time="4.199" >
+	<testcase name="PRODUCTFINDER time should not exceed 0.258 sec" classname="Performance" time="0.256" />
+	<testcase name="Certona time should not exceed 1.032 sec" classname="Performance" time="0.959" />
+	<testcase name="WishList PageLoad time should not exceed 1.946 sec" classname="Performance" time="2.010" >
 		<failure type="performance"> 
-			PageGroup: Mobile Safari/11 , Threshold: 0.581, Actual PageLoadTime: 4.199 
-			BASELINE: PageLoadTime:  0.529 sec, Measurements: 11769563 Moe: 0.004 sec 
-			TEST: PageLoadTime: 4.199 sec, Measurements:  51 , Moe: 4.387 sec
+			PageGroup: WishList , Threshold: 1.946, Actual PageLoadTime: 2.010 
+			BASELINE: PageLoadTime:  1.946 sec, Measurements: 1418 Moe: 0.155 sec 
+			TEST: PageLoadTime: 2.010 sec, Measurements: 1247 , Moe: 0.120 sec
 		</failure>
 	</testcase>
-	<testcase name="Chrome/60 time should not exceed 0.526 sec" classname="Performance" time="3.949" />
+	<testcase name="Gift Card Category PageLoad time should not exceed 1.809 sec" classname="Performance" time="1.937" >
+		<failure type="performance"> 
+			PageGroup: Gift Card Category , Threshold: 1.809, Actual PageLoadTime: 1.937 
+			BASELINE: PageLoadTime:  1.809 sec, Measurements: 1525 Moe: 0.905 sec 
+			TEST: PageLoadTime: 1.937 sec, Measurements: 909 , Moe: 0.691 sec
+		</failure>
+	</testcase>
+	<testcase name="MYSTORE time should not exceed 0.368 sec" classname="Performance" time="0.315" />
+	<testcase name="PURCHASE time should not exceed 0.239 sec" classname="Performance" time="0.238" />
+	<testcase name="(No Page Group) time should not exceed 0.320 sec" classname="Performance" time="0.294" />
+	<testcase name="ACCOUNT PageLoad time should not exceed 0.284 sec" classname="Performance" time="0.286" >
+		<failure type="performance"> 
+			PageGroup: ACCOUNT , Threshold: 0.284, Actual PageLoadTime: 0.286 
+			BASELINE: PageLoadTime:  0.284 sec, Measurements: 144419 Moe: 0.083 sec 
+			TEST: PageLoadTime: 0.286 sec, Measurements: 117814 , Moe: 0.099 sec
+		</failure>
+	</testcase>
+	<testcase name="My Account Sign In Info PageLoad time should not exceed 2.410 sec" classname="Performance" time="2.436" >
+		<failure type="performance"> 
+			PageGroup: My Account Sign In Info , Threshold: 2.410, Actual PageLoadTime: 2.436 
+			BASELINE: PageLoadTime:  2.410 sec, Measurements: 731 Moe: 0.148 sec 
+			TEST: PageLoadTime: 2.436 sec, Measurements: 567 , Moe: 0.713 sec
+		</failure>
+	</testcase>
+	<testcase name="CATEGORY PageLoad time should not exceed 0.395 sec" classname="Performance" time="0.403" >
+		<failure type="performance"> 
+			PageGroup: CATEGORY , Threshold: 0.395, Actual PageLoadTime: 0.403 
+			BASELINE: PageLoadTime:  0.395 sec, Measurements: 15880564 Moe: 0.010 sec 
+			TEST: PageLoadTime: 0.403 sec, Measurements: 12384566 , Moe: 0.012 sec
+		</failure>
+	</testcase>
+	<testcase name="PRODUCT time should not exceed 0.584 sec" classname="Performance" time="0.546" />
+	<testcase name="OrderConfirmation time should not exceed 3.447 sec" classname="Performance" time="3.425" />
+	<testcase name="NOSEARCH time should not exceed 0.650 sec" classname="Performance" time="0.632" />
+	<testcase name="SEARCH time should not exceed 0.576 sec" classname="Performance" time="0.570" />
+	<testcase name="Gift Card PageLoad time should not exceed 1.732 sec" classname="Performance" time="2.099" >
+		<failure type="performance"> 
+			PageGroup: Gift Card , Threshold: 1.732, Actual PageLoadTime: 2.099 
+			BASELINE: PageLoadTime:  1.732 sec, Measurements: 261 Moe: 0.261 sec 
+			TEST: PageLoadTime: 2.099 sec, Measurements: 182 , Moe: 0.767 sec
+		</failure>
+	</testcase>
+	<testcase name="404ERROR time should not exceed 0.428 sec" classname="Performance" time="0.406" />
+	<testcase name="My Store Detail time should not exceed 2.258 sec" classname="Performance" time="2.177" />
+	<testcase name="Add2Cart PageLoad time should not exceed 0.600 sec" classname="Performance" time="0.607" >
+		<failure type="performance"> 
+			PageGroup: Add2Cart , Threshold: 0.600, Actual PageLoadTime: 0.607 
+			BASELINE: PageLoadTime:  0.600 sec, Measurements: 86209 Moe: 0.080 sec 
+			TEST: PageLoadTime: 0.607 sec, Measurements: 61974 , Moe: 0.082 sec
+		</failure>
+	</testcase>
+	<testcase name="pathn PageLoad time should not exceed 1.100 sec" classname="Performance" time="1.275" >
+		<failure type="performance"> 
+			PageGroup: pathn , Threshold: 1.100, Actual PageLoadTime: 1.275 
+			BASELINE: PageLoadTime:  1.100 sec, Measurements:  30 Moe: 0.568 sec 
+			TEST: PageLoadTime: 1.275 sec, Measurements:  36 , Moe: 0.651 sec
+		</failure>
+	</testcase>
+	<testcase name="CheckOut PageLoad time should not exceed 3.705 sec" classname="Performance" time="3.753" >
+		<failure type="performance"> 
+			PageGroup: CheckOut , Threshold: 3.705, Actual PageLoadTime: 3.753 
+			BASELINE: PageLoadTime:  3.705 sec, Measurements: 27801 Moe: 0.059 sec 
+			TEST: PageLoadTime: 3.753 sec, Measurements: 20675 , Moe: 0.084 sec
+		</failure>
+	</testcase>
+	<testcase name="ORDERHISTORY PageLoad time should not exceed 0.267 sec" classname="Performance" time="0.296" >
+		<failure type="performance"> 
+			PageGroup: ORDERHISTORY , Threshold: 0.267, Actual PageLoadTime: 0.296 
+			BASELINE: PageLoadTime:  0.267 sec, Measurements: 31549 Moe: 0.152 sec 
+			TEST: PageLoadTime: 0.296 sec, Measurements: 34259 , Moe: 0.099 sec
+		</failure>
+	</testcase>
+	<testcase name="HOME PageLoad time should not exceed 0.475 sec" classname="Performance" time="0.486" >
+		<failure type="performance"> 
+			PageGroup: HOME , Threshold: 0.475, Actual PageLoadTime: 0.486 
+			BASELINE: PageLoadTime:  0.475 sec, Measurements: 1402843 Moe: 0.028 sec 
+			TEST: PageLoadTime: 0.486 sec, Measurements: 1090188 , Moe: 0.033 sec
+		</failure>
+	</testcase>
+	<testcase name="thematic time should not exceed 0.373 sec" classname="Performance" time="0.355" />
+	<testcase name="Perfect Fit Rewards PageLoad time should not exceed 1.622 sec" classname="Performance" time="1.705" >
+		<failure type="performance"> 
+			PageGroup: Perfect Fit Rewards , Threshold: 1.622, Actual PageLoadTime: 1.705 
+			BASELINE: PageLoadTime:  1.622 sec, Measurements: 4476 Moe: 0.145 sec 
+			TEST: PageLoadTime: 1.705 sec, Measurements: 3110 , Moe: 0.174 sec
+		</failure>
+	</testcase>
+	<testcase name="CART PageLoad time should not exceed 0.345 sec" classname="Performance" time="0.371" >
+		<failure type="performance"> 
+			PageGroup: CART , Threshold: 0.345, Actual PageLoadTime: 0.371 
+			BASELINE: PageLoadTime:  0.345 sec, Measurements: 456686 Moe: 0.066 sec 
+			TEST: PageLoadTime: 0.371 sec, Measurements: 339250 , Moe: 0.081 sec
+		</failure>
+	</testcase>
+	<testcase name="homepage time should not exceed 2.094 sec" classname="Performance" time="0.799" />
 </testsuite>
 

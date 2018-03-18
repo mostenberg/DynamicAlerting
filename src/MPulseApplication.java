@@ -7,10 +7,8 @@ import java.util.*;
 import javax.net.ssl.HttpsURLConnection;
 
 /**
- * Each mPulse application object represents an interface to a particular
- * application in the mPulse system. You can have many mPulse applications
- * defined.
- *
+ * An object containing credentials and methods to interface to the mPulse API.
+ * Essentially, each MPulseApplication Obe
  * 
  */
 public class MPulseApplication {
