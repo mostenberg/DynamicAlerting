@@ -58,6 +58,7 @@ public class MPulseJenkins {
 		System.out.println("mPulse/Jenkins Utility : \n"
 				+ "  Version 1.3  Last Modified 2/24/2018 by Mike Ostenberg mostenbe@akamai.com .Updated to automatically detect and use local  timezone \n"
 				+ "  Version 1.4  Last Modified 3/16/2018 by Mike Ostenberg mostenbe@akamai.com .Updated to better handle scientific notation in returned results\n"
+				+ "  Version 1.5  Last Modified 3/31/2018 by Mike Ostenberg mostenbe@akamai.com .Updated to allow setting threshold based on stdev\n"
 				+ "  This utility will allow you to execute a jar file from the command line, and automatically compare recent mPulse performance to a time window of your choosing, then PASS/FAIL\n"
 				+ "  based on thresholds that you set. Execute by running java -jar DynamicAlerting.jar [args]\n\n"
 				+ "Command line arguments:\n"
@@ -65,6 +66,8 @@ public class MPulseJenkins {
 				+ "\tbaselineEndDate=<dateFormat> -   The end  date for the period to derive your baseline from.\n"
 				+ "\tbaselineDomain=<domain> - The domain to measure for your baseline. Note: This requires you to setup a custom dimension called 'subDomain' in your application.\n"
 				+ "\tbaselineMultiplier=<float> - The multiplier above baseline time  (e.g. If baselineMultiplier=1.2  and HomePage was 3.2 for baseline, then threshold will be 3.84)\n"
+				+ "\tbaselineMultiplier=<float>sd - Placind 'sd' after the baseline multiplier indicates you want baseline to be based on # of standard deviations above\n"
+				+ "\t                               the basedline so baselineMultiplier=1.5sd would indicate that threshold will be 1.5 standard deviations above baseline\n"
 				+ "\ttestStartDate=<dateFormat> - The date for your measurements to start (REQUIRED). Usually this is -5minutes to aggregate from 5 minutes ago\n"
 				+ "\ttestEndDate=<dateFormat> - The end dateTime for your measurement window (usually 'now') (REQUIRED) Usuaully this is 'now' to measure up until current time.\n"
 				+ "\ttestDomain=<domain> - The name of the domain to measure for your test measurements.Note: This requires you to setup custom dimension called 'subDomain' in your application.\n"
@@ -99,7 +102,7 @@ public class MPulseJenkins {
 
 		if (args.length == 0) {
 			System.out.println(
-					"\n****** Exiting since no arguments provided from command line, so using default testing arguments ****\n");
+					"\n****** Exiting since no arguments provided from command line\n");
 			return;
 		}
 		MPulseJenkins.parseArgumentsTosetNameUsernameAPIandPWD(args);// First parse command line arguments to set the
@@ -228,7 +231,6 @@ public class MPulseJenkins {
 			argname = "threshold_"; // Set manual threshold.. must parse out of threshold_login=6.34
 			if (arg.startsWith(argname)) {
 				String pageGroupName = arg.substring(10, arg.indexOf('='));
-				String temp = arg.substring(arg.indexOf('=') + 1, arg.length());
 				Integer manualThresholdTime = Math
 						.round(1000 * Float.valueOf(arg.substring(arg.indexOf('=') + 1, arg.length())));
 				PageGroup myPGD;
@@ -248,10 +250,12 @@ public class MPulseJenkins {
 
 			argname = "baselineMultiplier=";
 			if (arg.startsWith(argname)) {
+				String stdAdder=""; //If this is a standardDeviation
+				if (arg.endsWith("sd")) {mpds.isStdDevMode=true;arg=arg.substring(0, arg.length()-2);stdAdder="stDev";}//set stdDev mode and remove the 'sd'
 				mpds.baselineMultiplier = Double.parseDouble(arg.substring(argname.length(), arg.length()));
 				System.out
-						.println(String.format("Based on command line argument of %s , set baselineMultiplier to to %s",
-								arg, mpds.baselineMultiplier));
+						.println(String.format("Based on command line argument of %s , set baselineMultiplier to to %s%s",
+								arg, mpds.baselineMultiplier,stdAdder));
 			}
 
 			argname = "globalThreshold=";

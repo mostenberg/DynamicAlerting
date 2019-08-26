@@ -221,6 +221,7 @@ public class MPulseDataSet {
 	private String testResults = null;
 
 	double baselineMultiplier;
+	boolean isStdDevMode; //Indicates if we're calculating threshold based on # of stdDeviations
 
 	public MPulseDataSet() {
 	};
@@ -260,6 +261,10 @@ public class MPulseDataSet {
 		return failCount;
 	}
 
+/**
+ * Determines how many page groups had enough measurements to be considered in the overall page group count.
+ * @return
+ */
 	public int getQualifiedPGCount() {
 		int measuredPGCount = 0;
 		for (Entry<String, PageGroup> myItem : pageGroups.entrySet()) {
@@ -288,9 +293,16 @@ public class MPulseDataSet {
 	}
 
 	String getHTMLSummary() {
-		String tableHeader="Akamai mPulse Real Browser Performance Measurements";
-		String myName = mps.name; if (myName.length()>0) {tableHeader=tableHeader+" Name: "+ myName ;}
-		String myTenant=mps.tenantName;if (myTenant.length()>0) {tableHeader=tableHeader+" Tenant: "+ myTenant ;}
+		String stdevColumnHeader=""; String stdevCellText="";String baselineColumnSpan="3";//By default stDev column isn't shown, so these are blank.
+		String thresholdColumnString="<td>"+baselineMultiplier + "* baseline </td>";//typically the threshold will be baseline*multiplier (unless we're in stdev mode
+		String tableHeader="<div>Akamai mPulse Real Browser Performance Measurements</div>";
+		String myName = mps.name; if (myName.length()>0) {tableHeader=tableHeader+" <div>Name: "+ myName+"</div>" ;}
+		String myTenant=mps.tenantName;if (myTenant.length()>0) {tableHeader=tableHeader+"<div> Tenant: "+ myTenant+"</div>" ;}
+		if (this.isStdDevMode==true) {
+			thresholdColumnString="<td> baseline+" + this.baselineMultiplier + "*&sigma;</td>";
+			stdevColumnHeader="<td>StDev (&sigma;)</td>";
+			baselineColumnSpan="4";
+		}
 		StringBuilder sb = new StringBuilder("<!DOCTYPE html><html>\n" + "<head>\n\t"
 				+ "<style>.FAIL{background-color: #FFA0A0;} .PASS{background-color: #CEFFE6;} .WARN{background-color: yellow}"
 				+ ".OVERALLPASS{background-color:green;} .OVERALLFAIL{background-color:red}"
@@ -299,10 +311,10 @@ public class MPulseDataSet {
 				+ ".vertical-text__inner:after {	content: \"\";	display: block;	margin: -1.5em 0 100%;}"
 				+ ".tableheader {background-color: #D8D8D8;}" + "</style>\n"
 				+ "<title> mPulse PageLoad Time Results </title>" + "</head>\n<body>\n"
-				+ "<table border=\"1\"><caption>"+tableHeader+"\"</caption>\n"
-				+ "<tr class=\"tableheader\"><th>Page Group Name</th><th colspan=\"3\">Baseline Data</th><th colspan=\"3\">Test Data</th><th>Threshold</th><th>Status</th><th>Overall Status</th></tr>\n"
-				+ "<tr class=\"tableheader\"><td>-</td><td>PageLoadTime</td><td>Measurements</td><td>MoE</td><td>PageLoadTime</td><td>Measurements</td><td>MoE</td><td>"
-				+ " " + baselineMultiplier + "* baseline</td><td>-</td><td>" + this.allowedPercentOfPageGroupsFailing
+				+ "<table border=\"1\"><caption>"+tableHeader+"</caption>\n"
+				+ "<tr class=\"tableheader\"><th>Page Group Name</th><th colspan=\""+baselineColumnSpan+"\">Baseline Data</th><th colspan=\"3\">Test Data</th><th>Threshold</th><th>Status</th><th>Overall Status</th></tr>\n"
+				+ "<tr class=\"tableheader\"><td>-</td><td>PageLoadTime</td><td>Measurements</td><td>MoE</td>"+stdevColumnHeader+"<td>PageLoadTime</td><td>Measurements</td><td>MoE</td>"
+				+ thresholdColumnString + "<td>-</td><td>" + this.allowedPercentOfPageGroupsFailing
 				+ " % of PageGroups may fail</td>\n");
 
 		Boolean isFirstRow = true;
@@ -319,17 +331,19 @@ public class MPulseDataSet {
 			} else {
 				overallStatusCell = "";
 			}
+			if(this.isStdDevMode==true) {stdevCellText=String.format("<td>%3.3f</td>", current.getBaselineStdDev()/1000);}
 			sb.append(String.format(
-					"<tr><td>%s</td><td>%3.3f</td><td>%3d</td><td>%3.3f</td><td>%3.3f</td><td>%3d</td><td>%3.3f</td><td>%3.3f%s</td><td class=\"%s\">%s</td>%s</tr>\n",
+					"<tr><td>%s</td><td>%3.3f</td><td>%3d</td><td>%3.5f</td>%s<td>%3.3f</td><td>%3d</td><td>%3.3f</td><td>%3.3f%s</td><td class=\"%s\">%s</td>%s</tr>\n",
 					current.pageGroupName, (float) current.baselinePageLoadTime / 1000, current.baselineBeaconCount,
-					(float) current.baselineMoE / 1000, (float) current.testPageLoadTime / 1000,
+					(float) current.baselineMoE / 1000, stdevCellText,(float) current.testPageLoadTime / 1000,
 					current.testBeaconCount, (float) current.testMoE / 1000, (float) current.getThresholdTime() / 1000,
 					current.getThresholdType(), current.getStatus(), current.getStatus(), overallStatusCell));
 			isFirstRow = false;
 		}
-		sb.append("</table>\n");
+		sb.append("</table>\n<br />\n");
 
-		sb.append("<table border=\"1\"> <caption> Data Source Info </caption>\n)"
+		//Include data summary of test and baseline data as separate html table at bottom or page:
+		sb.append("<table border=\"1\"> <caption> <h4>Data Source Info </h4></caption>\n"
 				+ "<tr class=\"tableheader\"><th colspan=\"3\">BASELINE</th><th colspan=\"3\">Test Data</th></tr>\n"
 				+ "<tr class=\"tableheader\"><td>Start Date</td><td>End Date</td><td>Domain</td><td>Start Date</td><td>End Date</td><td>Domain</td></tr>\n");
 		sb.append(String.format("<tr><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td></tr>",
@@ -419,6 +433,7 @@ public class MPulseDataSet {
 
 			String pageGroupName = testPageGroups.getJSONArray(i).get(0).toString();
 			PageGroup myPGD;
+			
 			if (!pageGroups.containsKey(pageGroupName)) {
 				myPGD = new PageGroup(pageGroupName);
 				pageGroups.put(pageGroupName, myPGD);
@@ -427,6 +442,7 @@ public class MPulseDataSet {
 			}
 
 			myPGD.setDynamicThreshold(baselineMultiplier);
+			myPGD.isStdDevMode=this.isStdDevMode; //set stdDev mode for the page group 
 			myPGD.testPageLoadTime = new BigDecimal(testPageGroups.getJSONArray(i).get(1).toString()).intValue();
 			myPGD.testMoE = (Double.valueOf(testPageGroups.getJSONArray(i).get(2).toString()));
 			myPGD.testBeaconCount = new BigDecimal(testPageGroups.getJSONArray(i).get(3).toString()).intValue();
@@ -480,8 +496,7 @@ public class MPulseDataSet {
 		String startDate = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'Z'").format(this.testStartDate.getTime());// was:																													// YYYY-MM-dd'T'HH:mm:ss'Z'"
 		String endDate = new SimpleDateFormat("YYYY-MM-dd'T'HH:mm:ss'Z'").format(this.testEndDate.getTime());
 
-		// If the test domain was defined, then use it, otherwise, drop it out of the
-		// query string
+		// If the test domain was defined, then use it, otherwise, drop it out of the query string
 		if (testDomain != null && testDomain.length() > 0) {
 			queryString = String.format(
 					"%sformat=json&custom-dimension-subdomain=%s&date-comparator=Between&date-start=%s&date-end=%s&timezone=%s",

@@ -2,7 +2,7 @@
 /**
  * A pageGroup object holds the name of a PageGroup, as well as the response
  * times of the baseline and test load times, and acceptable performance
- * dynamicThreshold. YOu can then query to find if a pageGroup has exceeded it's
+ * dynamicThreshold. You can then query to find if a pageGroup has exceeded it's
  * dynamicThreshold and would be consider failed status. (Note: It will also
  * return 'warn' status if a test data exceeds baseline but is less than
  * dynamicThreshold.
@@ -23,6 +23,7 @@ public class PageGroup {
 	private int manualThresholdTime; //
 	static int manualThresholdCount = 0;
 	double testMoE, baselineMoE;
+	boolean isStdDevMode; //Indicates if we're calculating threshold based on # of stdDeviations
 	String pageGroupName;
 
 	/**
@@ -82,7 +83,10 @@ public class PageGroup {
 		if (this.manualThresholdTime > 0) {
 			return "(m)";
 		} // Put this text in the HTML table to indicate a manually set threshold.
-		if (this.baselinePageLoadTime > 0) {
+		if (this.baselinePageLoadTime > 0 && this.isStdDevMode==true) {
+			return "(&sigma;)";
+		}		
+		if (this.baselinePageLoadTime > 0 && this.isStdDevMode!=true) {
 			return "";
 		} // If it's dynamic, don't bother putting any additional text in the cell.
 		if (PageGroup.manualThresholdCount > 0 && PageGroup.globalThreshold > 0) {
@@ -101,6 +105,9 @@ public class PageGroup {
 		this.manualThresholdTime = (int) manualThreshold; // Convert from seconds to milliseconds
 	}
 
+	public float getBaselineStdDev() {
+		return (float) (this.baselineMoE*Math.sqrt(this.baselineBeaconCount)/1.96);
+	}
 	/**
 	 * @return the thresholdTime
 	 */
@@ -109,8 +116,14 @@ public class PageGroup {
 			return (int) this.manualThresholdTime;
 		} // Use the manual instread of dynamicThreshold if it was set.
 		if (this.baselinePageLoadTime > 0 && this.testMoE > 0) {
-			//return (int) ((this.baselinePageLoadTime + this.baselineMoE) * this.dynamicThreshold + this.testMoE); // This would add MoE into calculations
-			return (int) ((this.baselinePageLoadTime) * this.dynamicThreshold );
+			// return (int) ((this.baselinePageLoadTime + this.baselineMoE) *
+			// this.dynamicThreshold + this.testMoE); // This would add MoE into
+			// calculations
+			if (this.isStdDevMode == true) {
+				return (int) ((this.baselinePageLoadTime) + this.dynamicThreshold * this.getBaselineStdDev());
+			} else {
+				return (int) ((this.baselinePageLoadTime) * this.dynamicThreshold);
+			}
 		} // Calculate dynamic if baselinePageLoadTime was set use the dynamic
 		return PageGroup.globalThreshold;
 	}
